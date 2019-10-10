@@ -21,7 +21,7 @@ export default {
   'GET /api/img': mockjs.mock({
     'list|10': [{ src: '@image' }],
   }),
-  'POST /api/table/list': mockjs.mock({
+  'GET /api/table/list': mockjs.mock({
     'list': getTabelList()
   })
 }
