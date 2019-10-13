@@ -62,7 +62,7 @@ const BasicLayout: React.FC = props => {
         <Slider dataSource={slider} />
         <Layout>
           <Header />
-          <Content style={{ margin: '0 16px', backgroundColor: 'white' }}>
+          <Content style={{ margin: '0 16px' }}>
             {props.children}
           </Content>
           <Footer />

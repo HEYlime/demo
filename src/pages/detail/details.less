@@ -1,0 +1,146 @@
+p{
+  margin: 0;
+  padding: 0;
+}
+.contentItem{
+  background-color: white;
+  border-radius:2px;
+  margin-bottom: 15px;
+  .title{
+    padding-left: 24px;
+    border-bottom: 1px solid #E9E9E9;
+    h2{
+      font-size:16px;
+      font-family:PingFangSC-Medium,PingFangSC;
+      font-weight:bold;
+      color:rgba(0,0,0,0.85);
+      line-height:24px;
+      padding-left: 8px;
+    }
+  }
+  .col{
+    padding: 32px;
+  }
+  .table{
+    padding: 25px 32px;
+  }
+}
+
+.auditButtons{
+  padding-left: 32px;
+  padding-bottom: 25px;
+ button{
+   margin-right: 24px;
+ }   
+}
+.col{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  &>div{
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+    .labelName{
+      width: 100px;
+      font-size:14px;
+      font-family:PingFangSC-Regular,PingFangSC;
+      font-weight:400;
+      color:rgba(0,0,0,0.85);
+    }
+    .value{
+      margin-left: 16px;
+    }
+  }
+  .colItem{
+    width: 100%;
+  }
+  .colItem2{
+    width: 50%;
+  }
+  .colItem3{
+    width: 33%;
+  }
+  .empty{
+    margin: 0;
+  }
+  .row2{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    p{
+      width: 100%;
+      font-size:18px;
+      font-family:PingFangSC-Regular,PingFangSC;
+      font-weight:400;
+      color:rgba(51,51,51,1);
+      line-height:32px;
+    }
+    .remarkContent{
+      width: 655px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .imgContent{
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .imgWrapper{
+        border: 1px dashed red;
+        width: 240px;
+        height: 156px;
+        margin-top: 12px;
+        margin-right: 16px;
+        position: relative;
+        .delImg{
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          top: -12px;
+          left: -12px;
+          border: 1px solid red;
+        }
+        .imgShow{
+          height: 156px;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+.modalContent{
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
+ &>div{
+   width: 100%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   margin-bottom: 19px;
+   &:nth-of-type(2n){
+    &>span{
+      padding-left: 40px;
+    }
+   }
+   span{
+     padding-right: 12px;
+   }
+   Input,Select{
+     box-sizing: border-box;
+     width: 295px;
+     
+   }
+   
+ }
+ .colItem2{
+   width: 50%;
+ }
+}

@@ -4,15 +4,32 @@
  */
 import React, { Fragment, useState, useEffect, Children } from 'react';
 import router from 'umi/router';
-import { Table, Pagination, Tag, Modal, Button } from 'antd';
+import {
+	Modal,
+	Form,
+	Input,
+	InputNumber,
+	Tooltip,
+	Icon,
+	Cascader,
+	Select,
+	Checkbox,
+	Radio,
+	Button,
+	message,
+	Table,
+	Tag,
+	Pagination
+} from 'antd';
+import { FormComponentProps } from "antd/lib/form/Form";
+const { Option } = Select;
 
 import LineWrap from './components/line-wrap/line-wrap';
 import SearchRow from './components/search-row/search-row';
-import EditModal from './components/modal/modal'
 
 import Styles from './index.less';
 import axios from 'axios';
-interface Props { };
+interface Props extends FormComponentProps { };
 
 interface Columns {
 	key: number,
@@ -24,7 +41,6 @@ interface Columns {
 }
 
 const TableList: React.FC<Props> = props => {
-
 
 	const columns = [
 
@@ -40,6 +56,11 @@ const TableList: React.FC<Props> = props => {
 		{
 			title: 'COL2',
 			dataIndex: 'name',
+			render: (text: string) => {
+				return (
+					<span >{text}</span>
+				)
+			}
 		},
 		{
 			title: 'COL3',
@@ -121,7 +142,7 @@ const TableList: React.FC<Props> = props => {
 
 	const getData = function (page: number) {
 		axios.get(
-			'http://192.168.1.102:8000/api/table/list'
+			'http://192.168.1.106:8000/api/table/list'
 		).then((response) => {
 			if (response.status == 200) {
 				let list = response.data.list;
@@ -145,16 +166,101 @@ const TableList: React.FC<Props> = props => {
 	const showModal = function () {
 		setVisible(true)
 	}
-	const handleOk = function () {
-		setVisible(false);
+	const handleOk = (e: any) => {
+		e.preventDefault();
+		props.form.validateFields((err, values) => {
+			if (!err) {
+				console.log('Received values of form: ', values);
+				setVisible(false);
+			} else {
+				message.error('Please complete the information!');
+			}
+		});
 	}
 	const handleCancel = function () {
 		setVisible(false);
 	}
+	const handleReset = () => {
+		props.form.resetFields();
+	}
+
+	const [loading, setLoading] = useState(false);
+	const { getFieldDecorator } = props.form;
+
+	const formItemLayout = {
+		labelCol: { span: 6 },
+		wrapperCol: { span: 14 },
+	};
 	return (
 		<Fragment>
-			<EditModal visible={visible} handleCancel={handleCancel} handleOk={handleOk}></EditModal>
+			{/* 弹出层 */}
+			<Modal
+				visible={visible}
+				title="Title"
+				onOk={handleOk}
+				onCancel={handleCancel}
+				footer={[
+					<Button key="back" onClick={handleReset}>
+						RESET
+				</Button>,
+					<Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+						CONFIRM
+				</Button>,
+				]}
+			>
+				<div >
+					<Form {...formItemLayout} layout="horizontal" onSubmit={handleOk}>
+						<Form.Item label="Plain Text">
+							<span>China</span>
+						</Form.Item>
+
+						<Form.Item label="Password" hasFeedback>
+							{getFieldDecorator('password', {
+								rules: [
+									{
+										required: true,
+										max: 18,
+										message: 'Please input your password!',
+									}
+								],
+							})(<Input.Password />)}
+						</Form.Item>
+						<Form.Item label="Select" hasFeedback>
+							{getFieldDecorator('select', {
+								rules: [
+									{
+										required: true,
+										message: 'Please select your country!'
+									}
+								],
+							})(
+								<Select placeholder="Please select a country">
+									<Option value="china">China</Option>
+									<Option value="usa">U.S.A</Option>
+								</Select>,
+							)}
+						</Form.Item>
+						<Form.Item label="InputNumber">
+							{getFieldDecorator('input-number', {
+								initialValue: 3
+							})(<InputNumber min={1} max={10} />)}
+							<span className="ant-form-text"> machines</span>
+						</Form.Item>
+						<Form.Item label="Radio.Button">
+							{getFieldDecorator('radio')(
+								<Radio.Group>
+									<Radio value="a">item 1</Radio>
+									<Radio value="b">item 2</Radio>
+									<Radio value="c">item 3</Radio>
+								</Radio.Group>,
+							)}
+						</Form.Item>
+					</Form>
+				</div>
+			</Modal>
+			{/* 搜索条件 */}
 			<SearchRow></SearchRow>
+			{/* 表格 */}
 			<Table
 				rowKey={record => record.key}
 				className={Styles.antTableWrapper}
@@ -175,4 +281,5 @@ const TableList: React.FC<Props> = props => {
 
 	);
 };
-export default TableList;
+export default Form.create<any>()(TableList);
+
