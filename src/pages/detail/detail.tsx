@@ -1,5 +1,5 @@
 import React, { Fragment, useReducer, useState } from 'react';
-import { Card, Table, Divider, Tag, Button, Modal, Input, Select, InputNumber, message, Radio } from 'antd';
+import { Card, Table, Divider, Tag, Button, Modal, Input, Select, InputNumber, message, Radio, Icon } from 'antd';
 const { Option } = Select;
 
 import Styles from './details.less';
@@ -8,49 +8,62 @@ interface Props { };
 
 const columns = [
   {
-    title: 'Name',
+    title: '时间',
+    dataIndex: 'time',
+    key: 'time',
+  },
+  {
+    title: '操作人',
     dataIndex: 'name',
     key: 'name',
-    render: text => <a>{text}</a>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: '部门',
+    dataIndex: 'organ',
+    key: 'organ',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: '操作',
+    dataIndex: 'audit',
+    key: 'audit',
+    render: (audit: number) => {
+      console.log(audit);
+      let str: string = '';
+      let color: string = '';
+      if (audit == 0) {
+        str = '驳回';
+        color = 'red';
+      } else if (audit == 1) {
+        str = '通过';
+        color = "green";
+      } else if (audit == 2) {
+        str = '待审核';
+        color = "orange";
+      }
+      console.log(color);
+      return (
+        < Tag color={color} >
+          {str}
+        </Tag >
+      )
+    }
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),
+    title: '备注',
+    dataIndex: 'remark',
+    key: 'remark',
   },
+
   {
     title: 'Action',
     key: 'action',
     render: (text, record) => (
       <span>
-        <a>Invite {record.name}</a>
+        <a>Find</a>
         <Divider type="vertical" />
-        <a>Delete</a>
+        <a>Select</a>
+        <Divider type="vertical" />
+        <a>Update</a>
       </span>
     ),
   },
@@ -58,23 +71,29 @@ const columns = [
 const data = [
   {
     key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+    time: '2019-10-12 09:46',
+    name: '小样',
+    organ: '助理一部',
+    audit: 1, // 操作 0 驳回； 1 通过； 2 待审核
+    remark: '暂无',
     tags: ['nice', 'developer'],
   },
   {
     key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    time: '2019-10-12 09:46',
+    name: '小样',
+    organ: '助理一部',
+    audit: 0, // 操作 0 驳回； 1 通过； 2 待审核
+    remark: '暂无',
     tags: ['loser'],
   },
   {
     key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
+    time: '2019-10-12 09:46',
+    name: '小样',
+    organ: '助理一部',
+    audit: 2, // 操作 0 驳回； 1 通过； 2 待审核
+    remark: '暂无',
     tags: ['cool', 'teacher'],
   },
 ];
@@ -99,6 +118,11 @@ const Detail: React.FC<Props> = props => {
 
   return (
     <Fragment>
+      {/* 返回 */}
+      <div className={Styles.backRow}>
+        <Icon type="left" style={{ marginRight: 8 }} />
+        <span>返回</span>
+      </div>
       {/* 日志信息 */}
       <div className={Styles.contentItem}>
         <div className={Styles.title}>
@@ -164,50 +188,67 @@ const Detail: React.FC<Props> = props => {
       <div className={Styles.contentItem}>
         <div className={Styles.title}>
           <img src="" alt="" />
-          <h2>TITLE</h2>
+          <h2>房源信息</h2>
         </div>
         <div className={`${Styles.col}`}>
-          <div className={Styles.colItem3}>
-            <span className={Styles.labelName}>LABEL1</span>
-            <div className={Styles.value}>label value label value</div>
-          </div>
-          <div className={Styles.colItem3}>
-            <span className={Styles.labelName}>LABEL1</span>
-            <div className={Styles.value}>label value label value</div>
-          </div>
-          <div className={Styles.colItem3}>
-            <span className={Styles.labelName}>LABEL11111:</span>
-            <div className={Styles.value}>label value label value</div>
-          </div>
-          <div className={Styles.colItem3}>
-            <span className={Styles.labelName}>LABEL111111:</span>
-            <div className={Styles.value}>label value label value</div>
-          </div>
-          <div className={Styles.colItem3}>
-            <span className={Styles.labelName}>LABEL111111:</span>
-            <div className={Styles.value}>label value label value</div>
-          </div>
-          <div className={`${Styles.colItem} ${Styles.empty}`}>
-          </div>
           <div className={`${Styles.colItem2}`}>
-            <span className={Styles.labelName}>LABEL1</span>
-            <div className={Styles.value}>label value label value</div>
+            <span className={Styles.labelName}>楼盘名称：</span>
+            <div className={Styles.value}>（虚拟项目）</div>
           </div>
           <div className={Styles.colItem2}>
-            <span className={Styles.labelName}>LABEL1</span>
-            <div className={Styles.value}>label value label value</div>
+            <span className={Styles.labelName}>楼栋号：</span>
+            <div className={Styles.value}>25#</div>
+          </div>
+          <div className={`${Styles.colItem2}`}>
+            <span className={Styles.labelName}>房源号：</span>
+            <div className={Styles.value}>向旭路226号</div>
+          </div>
+          <div className={Styles.colItem2}>
+            <span className={Styles.labelName}>户型：</span>
+            <div className={Styles.value}></div>
+          </div>
+          <div className={`${Styles.colItem2}`}>
+            <span className={Styles.labelName}>房源面积(㎡)：</span>
+            <div className={Styles.value}>268</div>
+          </div>
+          <div className={Styles.colItem2}>
+            <span className={Styles.labelName}>售价(元)：</span>
+            <div className={Styles.value}>4900803</div>
+          </div>
+        </div>
+      </div>
+      <div className={Styles.contentItem}>
+        <div className={Styles.title}>
+          <img src="" alt="" />
+          <h2>户型信息</h2>
+        </div>
+        <div className={`${Styles.col}`}>
+          <div className={Styles.colItem}>
+            <span className={Styles.labelName}>户型名：</span>
+            <div className={Styles.value}>A</div>
           </div>
           <div className={Styles.colItem}>
-            <span className={Styles.labelName}>LABEL1</span>
-            <div className={Styles.value}>label value label value</div>
+            <span className={Styles.labelName}>房源类型</span>
+            <div className={Styles.value}>A</div>
           </div>
-
-          <div className={`${Styles.row2}`}>
-            <p >remark</p>
-            <div className={Styles.remarkContent}>label value label valuelabel value label valuelabel value label valuelabel value label valuelabel value label valuelabel value label value</div>
+          <div className={Styles.colItem}>
+            <span className={Styles.labelName}>户型</span>
+            <div className={Styles.value}>3室2厅1卫</div>
+          </div>
+          <div className={Styles.colItem}>
+            <span className={Styles.labelName}>面积(㎡)</span>
+            <div className={Styles.value}>128</div>
+          </div>
+          <div className={`${Styles.colItem}`}>
+            <span className={`${Styles.labelName}  ${Styles.theamColor}`}>装修类型</span>
+            <div className={`${Styles.value} ${Styles.theamColor}`}>精装修</div>
+          </div>
+          <div className={Styles.colItem}>
+            <span className={`${Styles.labelName} ${Styles.theamColor}`}>首付比例</span>
+            <div className={`${Styles.value} ${Styles.theamColor}`}>8%</div>
           </div>
           <div className={`${Styles.row2}`}>
-            <p >img</p>
+            <p >户型图</p>
             <div className={Styles.imgContent}>
               <div className={Styles.imgWrapper}>
                 <img src="" className={Styles.delImg} alt="" />
@@ -219,8 +260,14 @@ const Detail: React.FC<Props> = props => {
               </div>
             </div>
           </div>
+          <div className={`${Styles.row2}`}>
+            <p >remark</p>
+            <div className={Styles.remarkContent}>高校邦平台广东开放大学需要做一个课程封面。用在平台首页轮播图的位置。 课程类别（名称）：公共基础课下面具体含2门课：《计算机应用基础》《广东开放大学学习指引》。已和杨俊沟通，请尽量明天上午完成，谢谢 诗冉！请尽量明天上午完成，谢谢诗冉！请尽量明天上午完成，高校邦平台高校邦平台高校邦平台高校邦平台高校邦平台</div>
+          </div>
+
         </div>
       </div>
+
 
     </Fragment >
   )

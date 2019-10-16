@@ -117,7 +117,7 @@ const TableList: React.FC<Props> = props => {
 	];
 	const evenClick = (record: any) => {
 		// console.log(record)
-
+		router.push('/update/update');
 	}
 	const oddClick = (record: any) => {
 		console.log(record)
@@ -142,7 +142,12 @@ const TableList: React.FC<Props> = props => {
 
 	const getData = function (page: number) {
 		axios.get(
-			'http://192.168.1.106:8000/api/table/list'
+			'http://192.168.1.106:8000/api/table/list',
+			{
+				params: {
+					test: '1'
+				}
+			}
 		).then((response) => {
 			if (response.status == 200) {
 				let list = response.data.list;

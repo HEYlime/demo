@@ -1,4 +1,5 @@
 import mockjs, { mock } from 'mockjs';
+import { delay } from 'roadhog-api-doc';
 
 const getTabelList = () => {
   let tableList = [];
@@ -17,11 +18,20 @@ const getTabelList = () => {
   return tableList;
 }
 
-export default {
+const proxy = {
   'GET /api/img': mockjs.mock({
     'list|10': [{ src: '@image' }],
   }),
-  'GET /api/table/list': mockjs.mock({
-    'list': getTabelList()
-  })
+  'GET /api/table/list': (req: any, res: any) => {
+    // console.log(req);
+    // console.log(res)
+    console.log(req.url);
+    console.log(req.query);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.send({
+      'list': getTabelList()
+    });
+  }
 }
+
+export default delay(proxy, 1000);

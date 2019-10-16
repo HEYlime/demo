@@ -58,9 +58,9 @@ const Slider: React.FC<Slider> = props => {
   }
 
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} theme="light" width={'256px'}  >
       <div className="logo" />
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+      <Menu defaultSelectedKeys={['1']} mode="inline">
         {renderMenu()}
       </Menu>
     </Sider>
