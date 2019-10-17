@@ -19,7 +19,8 @@ import {
 	message,
 	Table,
 	Tag,
-	Pagination
+	Pagination,
+	Skeleton
 } from 'antd';
 import { FormComponentProps } from "antd/lib/form/Form";
 const { Option } = Select;
@@ -27,8 +28,9 @@ const { Option } = Select;
 import LineWrap from './components/line-wrap/line-wrap';
 import SearchRow from './components/search-row/search-row';
 
+import httpService from './../../utils/request';
+
 import Styles from './index.less';
-import axios from 'axios';
 interface Props extends FormComponentProps { };
 
 interface Columns {
@@ -141,25 +143,9 @@ const TableList: React.FC<Props> = props => {
 
 
 	const getData = function (page: number) {
-		axios.get(
-			'http://192.168.1.106:8000/api/table/list',
-			{
-				params: {
-					test: '1'
-				}
-			}
-		).then((response) => {
-			if (response.status == 200) {
-				let list = response.data.list;
-				// setData(
-				// 	(preData: Columns[]) => {
-				// 		return [...preData, ...list]
-				// 	}
-				// )
-				setData([...list])
-			}
-		}).catch((error) => {
-			console.log(error)
+		httpService.httpPost('/api/table/list', { test: 1 }).then((data: any) => {
+			let list = data.data.list;
+			setData([...list])
 		})
 	}
 	const pageChange = (page: number) => {
@@ -272,6 +258,7 @@ const TableList: React.FC<Props> = props => {
 				columns={columns}
 				dataSource={data}
 				pagination={false}
+
 			/>
 			<Pagination
 				className={Styles.antPagination}

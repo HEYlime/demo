@@ -22,14 +22,17 @@ const proxy = {
   'GET /api/img': mockjs.mock({
     'list|10': [{ src: '@image' }],
   }),
-  'GET /api/table/list': (req: any, res: any) => {
+  'POST /api/table/list': (req: any, res: any) => {
     // console.log(req);
-    // console.log(res)
-    console.log(req.url);
-    console.log(req.query);
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.send({
-      'list': getTabelList()
+      status: 'success',
+      info: 'ok',
+      'data': {
+        list: getTabelList()
+      },
     });
   }
 }

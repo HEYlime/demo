@@ -1,16 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useReducer } from 'react';
 import Styles from './search-row.less';
 import { Input, DatePicker, Cascader, Button, Select } from 'antd';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 interface Props { };
-
 const SearchRow: React.FC<Props> = (props) => {
-  // 时间选择
-  const timeChange = function () {
 
-  }
   // 级联选择
   const options = [
     {
@@ -46,14 +42,8 @@ const SearchRow: React.FC<Props> = (props) => {
       ],
     },
   ];
-  const cascaderChange = function (value: Array<string>, selectedOptions: any) {
-    console.log(value);
-    console.log(selectedOptions)
-  }
 
-  const selectChage = function () {
 
-  }
   const optionData = [
     {
       value: 'jack',
@@ -73,6 +63,27 @@ const SearchRow: React.FC<Props> = (props) => {
       <Option key={option.value} value={option.value}>{option.text}</Option>
     )
   })
+
+  /**
+   *
+   *  searchInput: string
+   *  time: Array<string>,
+   *  Cascader: Array<string>
+   *  Select: stirng
+   */
+
+  const timeChange = function (date: any, dateString: Array<string>) {
+    console.log(date);
+    console.log(dateString)
+  }
+  const cascaderChange = function (value: Array<string>, selectedOptions: any) {
+    console.log(value);
+    console.log(selectedOptions)
+  }
+  const selectChage = function (value: string, selectedOptions: Array<string>) {
+    console.log(value);
+    console.log(selectedOptions)
+  }
 
 
   return (
