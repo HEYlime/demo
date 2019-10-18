@@ -1,6 +1,6 @@
 import React, { Fragment, useReducer } from 'react';
 import Styles from './search-row.less';
-import { Input, DatePicker, Cascader, Button, Select } from 'antd';
+import { Input, DatePicker, Cascader, Button, Select, Row, Col } from 'antd';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
@@ -84,8 +84,6 @@ const SearchRow: React.FC<Props> = (props) => {
     console.log(value);
     console.log(selectedOptions)
   }
-
-
   return (
     <Fragment>
       <div className={Styles.container}>
@@ -116,7 +114,7 @@ const SearchRow: React.FC<Props> = (props) => {
             style={{ width: 200 }}
             placeholder="Select a person"
             optionFilterProp="children"
-            onChange={selectChage}
+          // onChange={selectChage}
           >
             {optionStr}
           </Select>
